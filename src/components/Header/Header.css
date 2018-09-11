@@ -1,4 +1,11 @@
 .Header {
     color: white;
     font-size: 12px;
+    height: 56px;
+}
+
+.Header-nav {
+    position: fixed;
+    top: 0px;
+    left: 0px;
 }

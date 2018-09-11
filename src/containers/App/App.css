@@ -1,6 +1,7 @@
 .App {
-    height: 100%;
+    min-height: 100vh;
     background-image: url('/images/bg.png');
     background-repeat: repeat-x;
     background-size: auto 100%;
+    background-attachment: fixed;
 }
