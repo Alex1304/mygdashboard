@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-const Header = ({ isLoggedIn }) => (
+const Header = ({ isLoggedIn, username }) => (
     <header className="Header">
         <nav className="Header-nav navbar navbar-expand-md navbar-dark bg-dark w-100">
             <Link to="/" className="navbar-brand">MyGDashboard</Link>
@@ -18,6 +18,9 @@ const Header = ({ isLoggedIn }) => (
                         <div>
                             <li className="nav-item active">
                                 <Link to="/" className="nav-link">Home</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/" className="nav-link">Logout</Link>
                             </li>
                         </div>
                     }
@@ -46,7 +49,8 @@ const Header = ({ isLoggedIn }) => (
 
 function mapStateToProps(state) {
     return {
-        isLoggedIn: state.isLoggedIn,
+        isLoggedIn: state.login.isLoggedIn,
+        username: state.login.username,
     };
 }
 
