@@ -17,7 +17,7 @@ class LoginScreen extends Component {
 
         return (
             <div className="LoginScreen">
-                <ContainerTitle style={{ height: '36%' }}>Please login to your Geometry Dash account to continue</ContainerTitle>
+                <ContainerTitle style={{ height: '36%', minHeight: '100px' }}>Please login to your Geometry Dash account to continue</ContainerTitle>
                 <form>
                     <InputGroup inputID="gdusername" placeholder="Username" groupText={<FontAwesomeIcon icon="user" />} />
                     <InputGroup inputID="gdpassword" placeholder="Password" groupText={<FontAwesomeIcon icon="key" />} type="password" />
