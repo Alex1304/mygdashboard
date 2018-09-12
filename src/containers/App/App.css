@@ -1,7 +1,9 @@
 .App {
-    min-height: 100vh;
-    background-image: url('/images/bg.png');
-    background-repeat: repeat-x;
-    background-size: auto 100%;
-    background-attachment: fixed;
+}
+
+.App > div {
+    height: calc(100vh - 56px);
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
 }

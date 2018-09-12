@@ -1,0 +1,7 @@
+.InputGroup {
+}
+
+.InputGroup .input-group-text {
+    width: 50px;
+    justify-content: center;
+}

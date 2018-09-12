@@ -1,12 +1,14 @@
 import React from 'react';
 import './Header.css';
 
+import { connect } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 
 const Header = ({ isLoggedIn }) => (
     <header className="Header">
         <nav className="Header-nav navbar navbar-expand-md navbar-dark bg-dark w-100">
-            <a className="navbar-brand" href="#">MyGDashboard</a>
+            <Link to="/" className="navbar-brand">MyGDashboard</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -42,4 +44,10 @@ const Header = ({ isLoggedIn }) => (
     </header>
 );
 
-export default Header;
+function mapStateToProps(state) {
+    return {
+        isLoggedIn: state.isLoggedIn,
+    };
+}
+
+export default connect(mapStateToProps)(Header);

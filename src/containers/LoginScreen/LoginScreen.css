@@ -1,0 +1,19 @@
+.LoginScreen {
+}
+
+.LoginScreen form {
+    flex: 1;
+    padding: 0% 10%;
+}
+
+.LoginScreen form > * {
+    box-shadow: 1px 1px black;
+}
+
+.LoginScreen form .InputGroup {
+    margin-bottom: 20px;
+}
+
+.LoginScreen form .Button {
+    float: right;
+}

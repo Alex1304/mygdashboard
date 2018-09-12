@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import configureStore from './../../configureStore';
+import icons from './../../icons';
 
 import MainMenu from './../../containers/MainMenu';
 import LoginScreen from './../../containers/LoginScreen';
 
 import Header from './../../components/Header';
 
+icons();
+const store = configureStore();
+
 class App extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isLoggedIn: false,
-        };
-    }
 
     render() {
         return (
-            <div className="App">
-                <Header isLoggedIn={this.state.isLoggedIn} />
+            <Provider store={store}>
+                <BrowserRouter>
+                    <div className="App">
+                        <Header />
 
-                <Switch>
-                    <Route path="/login" render={() => <LoginScreen isLoggedIn={this.state.isLoggedIn} />} />
-                    <Route render={() => <MainMenu isLoggedIn={this.state.isLoggedIn} />} />
-                </Switch>
-            </div>
+                        <Switch>
+                            <Route path="/login" component={LoginScreen} />
+                            <Route component={MainMenu} />
+                        </Switch>
+                    </div>
+                </BrowserRouter>
+            </Provider>
         );
     }
 }

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import './MainMenu.css';
 
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Button from './../../components/Button';
+import ContainerTitle from './../../components/ContainerTitle';
 
 class MainMenu extends Component {
     render() {
@@ -13,7 +15,7 @@ class MainMenu extends Component {
 
         return (
             <section className="MainMenu">
-                <h2 className="MainMenu-title">Hello (user)! Here you can manage your Geometry Dash account. What do you want to do?</h2>
+                <ContainerTitle style={{ height: '50%' }}>Hello (user)! Here you can manage your Geometry Dash account. What do you want to do?</ContainerTitle>
 
                 <div className="MainMenu-buttonGroup">
                     <Button text="Change username" />
@@ -24,4 +26,10 @@ class MainMenu extends Component {
     }
 }
 
-export default MainMenu;
+function mapStateToProps(state) {
+    return {
+        isLoggedIn: state.isLoggedIn,
+    };
+}
+
+export default connect(mapStateToProps)(MainMenu);

@@ -1,0 +1,9 @@
+.ContainerTitle {
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    padding: 0 10%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}

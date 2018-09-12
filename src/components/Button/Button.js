@@ -1,8 +1,8 @@
 import React from 'react';
 import './Button.css';
 
-const Button = ({ type, text, onClick }) => (
-    <button className={"Button btn btn-" + type + ""} onClick={onClick}>
+const Button = ({ type, text, onClick, isSubmit }) => (
+    <button className={"Button btn btn-" + type + ""} onClick={onClick} type={isSubmit ? "submit" : ""}>
         {text}
     </button>
 );
