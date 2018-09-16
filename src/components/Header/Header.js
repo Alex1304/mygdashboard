@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-const Header = ({ isLoggedIn, username }) => (
+import * as actions from './../../actions.js';
+
+const Header = ({ isLoggedIn, username, dispatch }) => (
     <header className="Header">
         <nav className="Header-nav navbar navbar-expand-md navbar-dark bg-dark w-100">
             <Link to="/" className="navbar-brand">MyGDashboard</Link>
@@ -13,35 +15,28 @@ const Header = ({ isLoggedIn, username }) => (
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul className="navbar-nav">
-                    {isLoggedIn &&
-                        <div>
-                            <li className="nav-item active">
-                                <Link to="/" className="nav-link">Home</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/" className="nav-link">Logout</Link>
-                            </li>
-                        </div>
-                    }
-                    {!isLoggedIn &&
-                        <li className="nav-item active">
-                            <Link to="/login" className="nav-link">Login</Link>
-                        </li>
-                    }
-                    {/*
+                {(isLoggedIn && (
+                    <div className="navbar-nav">
+                        <Link to="/" className="nav-item active nav-link">Home</Link>
+                        <span className="nav-item nav-link" onClick={() => dispatch(actions.logout())}>Logout</span>
+                    </div>
+                )) || (
+                    <div className="navbar-nav">
+                        <Link to="/login" className="nav-link">Login</Link>
+                    </div>
+                )}
+                {/*
                         <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dropdown link
-                            </a>
-                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    </a>
+                    <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a className="dropdown-item" href="#">Action</a>
                         <a className="dropdown-item" href="#">Another action</a>
                         <a className="dropdown-item" href="#">Something else here</a>
-                            </div>
+                    </div>
                         </li>
-                    */}
-                </ul>
+                */}
             </div>
         </nav>
     </header>
@@ -49,8 +44,8 @@ const Header = ({ isLoggedIn, username }) => (
 
 function mapStateToProps(state) {
     return {
-        isLoggedIn: state.login.isLoggedIn,
-        username: state.login.username,
+        isLoggedIn: state.login.user && state.login.token,
+        user: state.login.user,
     };
 }
 

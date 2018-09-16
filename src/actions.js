@@ -24,6 +24,12 @@ export function receiveLoginError(error) {
     }
 }
 
+export function logout() {
+    return {
+        type: 'LOGOUT'
+    }
+}
+
 export function asyncLogin(username, password) {
     return dispatch => {
         dispatch(submitLogin(username, password));

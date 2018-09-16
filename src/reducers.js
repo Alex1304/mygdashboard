@@ -17,6 +17,12 @@ function login(state = { user: null, token: null, fetching: false }, action) {
                 fetching: false,
                 error: action.error,
             });
+        case 'LOGOUT':
+            return {
+                user: null,
+                token: null,
+                fetching: false,
+            };
         default:
             return state;
     }
