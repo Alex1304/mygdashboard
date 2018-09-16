@@ -7,3 +7,9 @@ body {
     background-size: 220% auto;
     background-attachment: fixed;
 }
+
+@media (min-width: 768px) {
+    body {
+        background-size: auto 100%;
+    }
+}

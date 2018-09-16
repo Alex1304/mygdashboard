@@ -15,7 +15,7 @@ class MainMenu extends Component {
 
         return (
             <section className="MainMenu">
-                <ContainerTitle style={{ height: '50%' }}>Hello {this.props.username}! Here you can manage your Geometry Dash account. What do you want to do?</ContainerTitle>
+                <ContainerTitle style={{ height: '50%' }}>Hello {this.props.user.username}! Here you can manage your Geometry Dash account. What do you want to do?</ContainerTitle>
 
                 <div className="MainMenu-buttonGroup">
                     <Button text="Change username" />
@@ -28,8 +28,8 @@ class MainMenu extends Component {
 
 function mapStateToProps(state) {
     return {
-        isLoggedIn: state.login.isLoggedIn,
-        username: state.login.username,
+        isLoggedIn: state.login.user && state.login.token,
+        user: state.login.user,
     };
 }
 

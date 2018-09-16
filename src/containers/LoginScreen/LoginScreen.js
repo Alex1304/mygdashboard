@@ -16,20 +16,29 @@ class LoginScreen extends Component {
         if (this.props.isLoggedIn) {
             return <Redirect to="/" />
         }
-        
+
         return (
             <section className="LoginScreen">
                 <ContainerTitle style={{ height: '36%', minHeight: '100px' }}>Please login to your Geometry Dash account to continue</ContainerTitle>
-                <form onSubmit={e => {
-                    e.preventDefault();
-                    const username = document.getElementById('gdusername').value;
-                    const password = document.getElementById('gdpassword').value;
-                    this.props.dispatch(actions.submitLogin(username, password));
-                }}>
-                    <InputGroup inputID="gdusername" placeholder="Username" groupText={<FontAwesomeIcon icon="user" />} />
-                    <InputGroup inputID="gdpassword" placeholder="Password" groupText={<FontAwesomeIcon icon="key" />} type="password" />
-                    <Button text="Login" type="success" isSubmit />
-                </form>
+                <div className="LoginScreen-formContainer">
+                    <div className="LoginScreen-errors">{this.props.error ? this.props.error.message : null}</div>
+                    <form onSubmit={e => {
+                        e.preventDefault();
+                        const username = document.getElementById('gdusername').value;
+                        const password = document.getElementById('gdpassword').value;
+
+                        if (!username || !password) {
+                            this.props.dispatch(actions.receiveLoginError({ message: 'Username and/or password is empty' }));
+                        } else {
+                            this.props.dispatch(actions.asyncLogin(username, password));
+                        }
+
+                    }}>
+                        <InputGroup inputID="gdusername" placeholder="Username" groupText={<FontAwesomeIcon icon="user" />} />
+                        <InputGroup inputID="gdpassword" placeholder="Password" groupText={<FontAwesomeIcon icon="key" />} type="password" />
+                        <Button text="Login" type="success" isSubmit />
+                    </form>
+                </div>
             </section>
         );
     }
@@ -37,7 +46,8 @@ class LoginScreen extends Component {
 
 function mapStateToProps(state) {
     return {
-        isLoggedIn: state.login.isLoggedIn,
+        error: state.login.error,
+        isLoggedIn: state.login.token && state.login.user,
     };
 }
 

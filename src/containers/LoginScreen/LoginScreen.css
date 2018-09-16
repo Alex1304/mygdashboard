@@ -1,9 +1,12 @@
 .LoginScreen {
 }
 
+.LoginScreen-formContainer {
+    padding: 0% 10%;
+}
+
 .LoginScreen form {
     flex: 1;
-    padding: 0% 10%;
 }
 
 .LoginScreen form > * {
@@ -16,4 +19,11 @@
 
 .LoginScreen form .Button {
     float: right;
+}
+
+.LoginScreen-errors {
+    color: red;
+    min-height: 22px;
+    font-size: 14px;
+    margin-bottom: 5px;
 }

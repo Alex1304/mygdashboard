@@ -5,5 +5,5 @@
     height: calc(100vh - 56px);
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow: auto;
 }
