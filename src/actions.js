@@ -9,26 +9,64 @@ export function submitLogin(username, password) {
     };
 }
 
-export function receiveLoginInfo(user, token) {
+export function receiveLoginSuccess(user, token) {
     return {
         type: 'LOGIN_ACK',
         user,
         token,
-    }
+    };
 }
 
 export function receiveLoginError(error) {
     return {
         type: 'LOGIN_ERROR',
         error,
-    }
+    };
+}
+
+export function submitChangeUsername(username) {
+    return {
+        type: 'CHANGE_USERNAME_SUBMIT',
+        username,
+    };
+}
+
+export function receiveChangeUsernameSuccess(user) {
+    return {
+        type: 'CHANGE_USERNAME_ACK',
+        user,
+    };
+}
+
+export function receiveChangeUsernameError(error) {
+    return {
+        type: 'CHANGE_USERNAME_ERROR',
+        error,
+    };
 }
 
 export function logout() {
     return {
         type: 'LOGOUT'
-    }
+    };
 }
+
+export function redirect(path) {
+    return {
+        type: 'REDIRECT',
+        path,
+    };
+}
+
+export function endRedirect() {
+    return {
+        type: 'REDIRECT_END',
+    };
+}
+
+/**
+ * ASYNC ACTIONS
+ */
 
 export function asyncLogin(username, password) {
     return dispatch => {
@@ -52,7 +90,32 @@ export function asyncLogin(username, password) {
                 }
             }
             else
-                dispatch(receiveLoginInfo(data.user, data.token));
-        })
+                dispatch(receiveLoginSuccess(data.user, data.token));
+        });
+    };
+}
+
+export function asyncChangeUsername(username, token) {
+    return dispatch => {
+        dispatch(submitChangeUsername(username));
+
+        return fetch(config.api_url + '/me/username', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': token,
+            },
+            body: JSON.stringify({ username }),
+        }).then(
+            response => response.json(),
+            error => dispatch(receiveChangeUsernameError({ message: 'An unknown error occured.' }))
+        ).then(data => {
+            if (data.message) {
+                dispatch(receiveChangeUsernameError(data));
+            } else {
+                dispatch(receiveChangeUsernameSuccess(data));
+                dispatch(redirect('/'));
+            }
+        });
     };
 }
