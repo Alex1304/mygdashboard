@@ -12,7 +12,7 @@ import * as actions from './../../actions.js';
 
 class ChangeUsername extends Component {
     render() {
-        if (!this.props.isLoggedIn) {
+        if (!this.props.user) {
             return <Redirect to="/login" />
         }
 
@@ -42,9 +42,9 @@ class ChangeUsername extends Component {
 
 function mapStateToProps(state) {
     return {
-        error: state.changeUsername.error,
-        isLoggedIn: state.login.token && state.login.user,
-        token: state.login.token,
+        user: state.user,
+        error: state.error,
+        token: state.token,
     };
 }
 

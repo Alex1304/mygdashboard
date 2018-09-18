@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import * as actions from './../../actions.js';
 
-const Header = ({ isLoggedIn, username, dispatch }) => (
+const Header = ({ user, dispatch }) => (
     <header className="Header">
         <nav className="Header-nav navbar navbar-expand-md navbar-dark bg-dark w-100">
             <Link to="/" className="navbar-brand">MyGDashboard</Link>
@@ -15,7 +15,7 @@ const Header = ({ isLoggedIn, username, dispatch }) => (
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                {(isLoggedIn && (
+                {(user !== null && (
                     <div className="navbar-nav">
                         <Link to="/" className="nav-item active nav-link">Home</Link>
                         <span className="nav-item nav-link" onClick={() => dispatch(actions.logout())}>Logout</span>
@@ -44,8 +44,7 @@ const Header = ({ isLoggedIn, username, dispatch }) => (
 
 function mapStateToProps(state) {
     return {
-        isLoggedIn: state.login.user && state.login.token,
-        user: state.login.user,
+        user: state.user,
     };
 }
 

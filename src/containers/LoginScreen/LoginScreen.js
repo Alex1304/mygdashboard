@@ -13,7 +13,7 @@ import * as actions from './../../actions.js';
 
 class LoginScreen extends Component {
     render() {
-        if (this.props.isLoggedIn) {
+        if (this.props.user) {
             return <Redirect to="/" />
         }
 
@@ -46,8 +46,8 @@ class LoginScreen extends Component {
 
 function mapStateToProps(state) {
     return {
-        error: state.login.error,
-        isLoggedIn: state.login.token && state.login.user,
+        error: state.error,
+        user: state.user,
     };
 }
 

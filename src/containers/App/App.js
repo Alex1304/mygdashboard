@@ -12,6 +12,7 @@ import ChangeUsername from './../../containers/ChangeUsername';
 
 import Header from './../../components/Header';
 import Redirecter from './../../components/Redirecter';
+import Overlay from './../../components/Overlay';
 
 icons();
 const store = configureStore();
@@ -24,6 +25,7 @@ class App extends Component {
                 <BrowserRouter>
                     <div className="App">
                         <Redirecter />
+                        <Overlay />
                         <Header />
 
                         <Switch>

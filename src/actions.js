@@ -31,10 +31,11 @@ export function submitChangeUsername(username) {
     };
 }
 
-export function receiveChangeUsernameSuccess(user) {
+export function receiveChangeUsernameSuccess(user, dispatch) {
     return {
         type: 'CHANGE_USERNAME_ACK',
         user,
+        dispatch,
     };
 }
 
@@ -64,9 +65,15 @@ export function endRedirect() {
     };
 }
 
-/**
- * ASYNC ACTIONS
- */
+export function dismissOverlay() {
+    return {
+        type: 'OVERLAY_DISMISS',
+    };
+}
+
+/*
+    ASYNC ACTIONS
+*/
 
 export function asyncLogin(username, password) {
     return dispatch => {
@@ -113,7 +120,7 @@ export function asyncChangeUsername(username, token) {
             if (data.message) {
                 dispatch(receiveChangeUsernameError(data));
             } else {
-                dispatch(receiveChangeUsernameSuccess(data));
+                dispatch(receiveChangeUsernameSuccess(data, dispatch));
                 dispatch(redirect('/'));
             }
         });
