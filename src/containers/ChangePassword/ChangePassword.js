@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './ChangeUsername.css'
+import './ChangePassword.css'
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,28 +10,28 @@ import ContainerTitle from './../../components/ContainerTitle';
 
 import * as actions from './../../actions.js';
 
-class ChangeUsername extends Component {
+class ChangePassword extends Component {
     render() {
         if (!this.props.user) {
             return <Redirect to="/login" />
         }
 
         return (
-            <section className="ChangeUsername">
-                <ContainerTitle style={{ height: '36%', minHeight: '100px' }}>Change username</ContainerTitle>
-                <div className="ChangeUsername-formContainer">
-                    <div className="ChangeUsername-errors">{this.props.error ? this.props.error.message : null}</div>
+            <section className="ChangePassword">
+                <ContainerTitle style={{ height: '36%', minHeight: '100px' }}>Change password</ContainerTitle>
+                <div className="ChangePassword-formContainer">
+                    <div className="ChangePassword-errors">{this.props.error ? this.props.error.message : null}</div>
                     <form onSubmit={e => {
                         e.preventDefault();
-                        const username = document.getElementById('gdnewusername').value;
+                        const password = document.getElementById('gdnewpassword').value;
 
-                        if (!username) {
-                            this.props.dispatch(actions.receiveChangeUsernameError({ message: 'Username is empty' }));
+                        if (!password) {
+                            this.props.dispatch(actions.receiveChangePasswordError({ message: 'Password is empty' }));
                         } else {
-                            this.props.dispatch(actions.asyncChangeUsername(username, this.props.token));
+                            this.props.dispatch(actions.asyncChangePassword(password, this.props.token));
                         }
                     }}>
-                        <InputGroup inputID="gdnewusername" placeholder="New username" groupText={<FontAwesomeIcon icon="user" />} />
+                        <InputGroup type="password" inputID="gdnewpassword" placeholder="New password" groupText={<FontAwesomeIcon icon="key" />} />
                         <Button text="Submit" type="success" isSubmit />
                     </form>
                 </div>
@@ -48,4 +48,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(ChangeUsername);
+export default connect(mapStateToProps)(ChangePassword);

@@ -46,6 +46,28 @@ export function receiveChangeUsernameError(error) {
     };
 }
 
+export function submitChangePassword(password) {
+    return {
+        type: 'CHANGE_PASSWORD_SUBMIT',
+        password,
+    };
+}
+
+export function receiveChangePasswordSuccess(user, dispatch) {
+    return {
+        type: 'CHANGE_PASSWORD_ACK',
+        user,
+        dispatch,
+    };
+}
+
+export function receiveChangePasswordError(error) {
+    return {
+        type: 'CHANGE_PASSWORD_ERROR',
+        error,
+    };
+}
+
 export function logout() {
     return {
         type: 'LOGOUT'
@@ -121,6 +143,31 @@ export function asyncChangeUsername(username, token) {
                 dispatch(receiveChangeUsernameError(data));
             } else {
                 dispatch(receiveChangeUsernameSuccess(data, dispatch));
+                dispatch(redirect('/'));
+            }
+        });
+    };
+}
+
+export function asyncChangePassword(password, token) {
+    return dispatch => {
+        dispatch(submitChangePassword(password));
+
+        return fetch(config.api_url + '/me/password', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': token,
+            },
+            body: JSON.stringify({ password }),
+        }).then(
+            response => response.json(),
+            error => dispatch(receiveChangePasswordError({ message: 'An unknown error occured.' }))
+        ).then(data => {
+            if (data.message) {
+                dispatch(receiveChangePasswordError(data));
+            } else {
+                dispatch(receiveChangePasswordSuccess(data, dispatch));
                 dispatch(redirect('/'));
             }
         });

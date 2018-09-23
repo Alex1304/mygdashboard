@@ -21,7 +21,7 @@ class MainMenu extends Component {
 
                 <div className="MainMenu-buttonGroup">
                     <Button text="Change username" onClick={() => this.props.dispatch(actions.redirect('/change-username'))} />
-                    <Button text="Change password" />
+                    <Button text="Change password" onClick={() => this.props.dispatch(actions.redirect('/change-password'))} />
                 </div>
             </section>
         );

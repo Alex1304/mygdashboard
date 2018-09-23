@@ -9,6 +9,7 @@ import icons from './../../icons';
 import MainMenu from './../../containers/MainMenu';
 import LoginScreen from './../../containers/LoginScreen';
 import ChangeUsername from './../../containers/ChangeUsername';
+import ChangePassword from './../../containers/ChangePassword';
 
 import Header from './../../components/Header';
 import Redirecter from './../../components/Redirecter';
@@ -31,6 +32,7 @@ class App extends Component {
                         <Switch>
                             <Route path="/login" component={LoginScreen} />
                             <Route path="/change-username" component={ChangeUsername} />
+                            <Route path="/change-password" component={ChangePassword} />
                             <Route component={MainMenu} />
                         </Switch>
                     </div>

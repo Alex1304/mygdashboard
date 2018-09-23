@@ -6,6 +6,7 @@ function user(state = null, action) {
     switch (action.type) {
         case 'LOGIN_ACK':
         case 'CHANGE_USERNAME_ACK':
+        case 'CHANGE_PASSWORD_ACK':
             return action.user;
         case 'LOGOUT':
             return null;
@@ -27,6 +28,7 @@ function error(state = null, action) {
     switch (action.type) {
         case 'LOGIN_ERROR':
         case 'CHANGE_USERNAME_ERROR':
+        case 'CHANGE_PASSWORD_ERROR':
             return action.error;
         case 'LOGIN_ACK':
         case 'CHANGE_USERNAME_ACK':
@@ -51,6 +53,7 @@ function overlay(state = {}, action) {
     switch (action.type) {
         case 'LOGIN_SUBMIT':
         case 'CHANGE_USERNAME_SUBMIT':
+        case 'CHANGE_PASSWORD_SUBMIT':
             return { icon: 'LOADING' };
         case 'CHANGE_USERNAME_ACK':
             return {
@@ -61,9 +64,19 @@ function overlay(state = {}, action) {
                     on_click: () => action.dispatch(actions.dismissOverlay()),
                 },
             };
+        case 'CHANGE_PASSWORD_ACK':
+            return {
+                icon: 'SUCCESS',
+                text: 'Password changed!',
+                button: {
+                    text: 'OK',
+                    on_click: () => action.dispatch(actions.dismissOverlay()),
+                },
+            };
         case 'LOGIN_ACK':
         case 'LOGIN_ERROR':
         case 'CHANGE_USERNAME_ERROR':
+        case 'CHANGE_PASSWORD_ERROR':
         case 'LOGOUT':
         case 'OVERLAY_DISMISS':
             return {};
