@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import * as actions from './../../actions.js';
+import * as storage from './../../storage.js';
 
 const Header = ({ user, dispatch }) => (
     <header className="Header">
@@ -18,7 +19,11 @@ const Header = ({ user, dispatch }) => (
                 {(user !== null && (
                     <div className="navbar-nav">
                         <Link to="/" className="nav-item active nav-link">Home</Link>
-                        <span className="nav-item nav-link" onClick={() => dispatch(actions.logout())}>Logout</span>
+                        <span className="nav-item nav-link" onClick={() => {
+                            dispatch(actions.logout());
+                            storage.remove('user');
+                            storage.remove('token');
+                        }}>Logout</span>
                     </div>
                 )) || (
                     <div className="navbar-nav">

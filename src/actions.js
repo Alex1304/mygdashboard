@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
 import config from './config.json';
+import * as storage from './storage.js';
 
 export function submitLogin(username, password) {
     return {
@@ -24,46 +25,23 @@ export function receiveLoginError(error) {
     };
 }
 
-export function submitChangeUsername(username) {
+export function submitUpdateCredentials(credentials) {
     return {
-        type: 'CHANGE_USERNAME_SUBMIT',
-        username,
+        type: 'UPDATE_CREDENTIALS_SUBMIT',
+        credentials,
     };
 }
 
-export function receiveChangeUsernameSuccess(user, dispatch) {
+export function receiveUpdateCredentialsSuccess(user) {
     return {
-        type: 'CHANGE_USERNAME_ACK',
+        type: 'UPDATE_CREDENTIALS_ACK',
         user,
-        dispatch,
     };
 }
 
-export function receiveChangeUsernameError(error) {
+export function receiveUpdateCredentialsError(error) {
     return {
-        type: 'CHANGE_USERNAME_ERROR',
-        error,
-    };
-}
-
-export function submitChangePassword(password) {
-    return {
-        type: 'CHANGE_PASSWORD_SUBMIT',
-        password,
-    };
-}
-
-export function receiveChangePasswordSuccess(user, dispatch) {
-    return {
-        type: 'CHANGE_PASSWORD_ACK',
-        user,
-        dispatch,
-    };
-}
-
-export function receiveChangePasswordError(error) {
-    return {
-        type: 'CHANGE_PASSWORD_ERROR',
+        type: 'UPDATE_CREDENTIALS_ERROR',
         error,
     };
 }
@@ -118,56 +96,34 @@ export function asyncLogin(username, password) {
                     dispatch(receiveLoginError({ message: 'An unknown error occured.' }))
                 }
             }
-            else
+            else {
+                storage.save('user', JSON.stringify(data.user));
+                storage.save('token', data.token);
                 dispatch(receiveLoginSuccess(data.user, data.token));
-        });
-    };
-}
-
-export function asyncChangeUsername(username, token) {
-    return dispatch => {
-        dispatch(submitChangeUsername(username));
-
-        return fetch(config.api_url + '/me/username', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Auth-Token': token,
-            },
-            body: JSON.stringify({ username }),
-        }).then(
-            response => response.json(),
-            error => dispatch(receiveChangeUsernameError({ message: 'An unknown error occured.' }))
-        ).then(data => {
-            if (data.message) {
-                dispatch(receiveChangeUsernameError(data));
-            } else {
-                dispatch(receiveChangeUsernameSuccess(data, dispatch));
-                dispatch(redirect('/'));
             }
         });
     };
 }
 
-export function asyncChangePassword(password, token) {
+export function asyncUpdateCredentials(credentials, token) {
     return dispatch => {
-        dispatch(submitChangePassword(password));
+        dispatch(submitUpdateCredentials(credentials));
 
-        return fetch(config.api_url + '/me/password', {
+        return fetch(config.api_url + '/me/credentials', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Auth-Token': token,
             },
-            body: JSON.stringify({ password }),
+            body: JSON.stringify(credentials),
         }).then(
             response => response.json(),
-            error => dispatch(receiveChangePasswordError({ message: 'An unknown error occured.' }))
+            error => dispatch(receiveUpdateCredentialsError({ message: 'An unknown error occured.' }))
         ).then(data => {
             if (data.message) {
-                dispatch(receiveChangePasswordError(data));
+                dispatch(receiveUpdateCredentialsError(data));
             } else {
-                dispatch(receiveChangePasswordSuccess(data, dispatch));
+                dispatch(receiveUpdateCredentialsSuccess(data));
                 dispatch(redirect('/'));
             }
         });

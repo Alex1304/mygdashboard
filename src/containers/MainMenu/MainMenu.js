@@ -20,8 +20,7 @@ class MainMenu extends Component {
                 <ContainerTitle style={{ height: '50%' }}>Hello {this.props.user.username}! Here you can manage your Geometry Dash account. What do you want to do?</ContainerTitle>
 
                 <div className="MainMenu-buttonGroup">
-                    <Button text="Change username" onClick={() => this.props.dispatch(actions.redirect('/change-username'))} />
-                    <Button text="Change password" onClick={() => this.props.dispatch(actions.redirect('/change-password'))} />
+                    <Button text="Update credentials" onClick={() => this.props.dispatch(actions.redirect('/update-credentials'))} />
                 </div>
             </section>
         );

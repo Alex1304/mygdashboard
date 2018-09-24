@@ -5,8 +5,7 @@ import * as actions from './actions.js';
 function user(state = null, action) {
     switch (action.type) {
         case 'LOGIN_ACK':
-        case 'CHANGE_USERNAME_ACK':
-        case 'CHANGE_PASSWORD_ACK':
+        case 'UPDATE_CREDENTIALS_ACK':
             return action.user;
         case 'LOGOUT':
             return null;
@@ -19,20 +18,6 @@ function token(state = null, action) {
     switch (action.type) {
         case 'LOGIN_ACK':
             return action.token;
-        default:
-            return state;
-    }
-}
-
-function error(state = null, action) {
-    switch (action.type) {
-        case 'LOGIN_ERROR':
-        case 'CHANGE_USERNAME_ERROR':
-        case 'CHANGE_PASSWORD_ERROR':
-            return action.error;
-        case 'LOGIN_ACK':
-        case 'CHANGE_USERNAME_ACK':
-            return null;
         default:
             return state;
     }
@@ -52,31 +37,22 @@ function redirect(state = null, action) {
 function overlay(state = {}, action) {
     switch (action.type) {
         case 'LOGIN_SUBMIT':
-        case 'CHANGE_USERNAME_SUBMIT':
-        case 'CHANGE_PASSWORD_SUBMIT':
+        case 'UPDATE_CREDENTIALS_SUBMIT':
             return { icon: 'LOADING' };
-        case 'CHANGE_USERNAME_ACK':
+        case 'UPDATE_CREDENTIALS_ACK':
             return {
                 icon: 'SUCCESS',
-                text: 'Username changed!',
-                button: {
-                    text: 'OK',
-                    on_click: () => action.dispatch(actions.dismissOverlay()),
-                },
+                text: 'Credentials changed!',
+                button: 'Go back to homepage',
             };
-        case 'CHANGE_PASSWORD_ACK':
+        case 'LOGIN_ERROR':
+        case 'UPDATE_CREDENTIALS_ERROR':
             return {
-                icon: 'SUCCESS',
-                text: 'Password changed!',
-                button: {
-                    text: 'OK',
-                    on_click: () => action.dispatch(actions.dismissOverlay()),
-                },
+                icon: 'FAILED',
+                text: action.error.message,
+                button: 'OK',
             };
         case 'LOGIN_ACK':
-        case 'LOGIN_ERROR':
-        case 'CHANGE_USERNAME_ERROR':
-        case 'CHANGE_PASSWORD_ERROR':
         case 'LOGOUT':
         case 'OVERLAY_DISMISS':
             return {};
@@ -88,7 +64,6 @@ function overlay(state = {}, action) {
 const rootReducer = combineReducers({
     user,
     token,
-    error,
     redirect,
     overlay,
 });

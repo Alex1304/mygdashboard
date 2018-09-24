@@ -20,10 +20,3 @@
 .LoginScreen form .Button {
     float: right;
 }
-
-.LoginScreen-errors {
-    color: red;
-    min-height: 22px;
-    font-size: 14px;
-    margin-bottom: 5px;
-}

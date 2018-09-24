@@ -21,7 +21,6 @@ class LoginScreen extends Component {
             <section className="LoginScreen">
                 <ContainerTitle style={{ height: '36%', minHeight: '100px' }}>Please login to your Geometry Dash account to continue</ContainerTitle>
                 <div className="LoginScreen-formContainer">
-                    <div className="LoginScreen-errors">{this.props.error ? this.props.error.message : null}</div>
                     <form onSubmit={e => {
                         e.preventDefault();
                         const username = document.getElementById('gdusername').value;
@@ -46,7 +45,6 @@ class LoginScreen extends Component {
 
 function mapStateToProps(state) {
     return {
-        error: state.error,
         user: state.user,
     };
 }
