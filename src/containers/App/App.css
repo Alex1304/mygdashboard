@@ -3,6 +3,8 @@
 
 .App > section {
     height: calc(100vh - 56px);
+    max-width: 720px;
+    margin: auto;
     display: flex;
     flex-direction: column;
     overflow: auto;

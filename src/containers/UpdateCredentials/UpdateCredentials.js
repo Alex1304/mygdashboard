@@ -29,9 +29,9 @@ class UpdateCredentials extends Component {
                         const currentPassword = document.getElementById('gdcurrentpassword').value;
 
                         if (!currentPassword) {
-                            this.props.dispatch(actions.receiveUpdateCredentialsError({ message: 'Current password field is required' }));
+                            this.props.dispatch(actions.receiveError('Current password field is required'));
                         } else if (password !== password2) {
-                            this.props.dispatch(actions.receiveUpdateCredentialsError({ message: 'Repeated password does not match' }));
+                            this.props.dispatch(actions.receiveError('Repeated password does not match'));
                         } else {
                             var credentials = {};
 
@@ -46,7 +46,7 @@ class UpdateCredentials extends Component {
                             assignCredentials('password', password);
                             assignCredentials('current_password', currentPassword);
 
-                            this.props.dispatch(actions.asyncUpdateCredentials(credentials, this.props.token));
+                            this.props.dispatch(actions.asyncUpdateCredentials(credentials));
                         }
                     }}>
                         <InputGroup inputID="gdnewusername" placeholder={this.props.user.username} groupText={<FontAwesomeIcon icon="user" />} />

@@ -2,47 +2,42 @@ import fetch from 'cross-fetch';
 import config from './config.json';
 import * as storage from './storage.js';
 
-export function submitLogin(username, password) {
+export function submit() {
     return {
-        type: 'LOGIN_SUBMIT',
-        username,
-        password,
+        type: 'SUBMIT',
     };
 }
 
-export function receiveLoginSuccess(user, token) {
+export function receiveError(errorMessage, buttonText = 'OK') {
     return {
-        type: 'LOGIN_ACK',
+        type: 'ERROR',
+        errorMessage,
+        buttonText,
+    };
+}
+
+export function receiveSuccess(successMessage, buttonText = 'OK', payload = {}) {
+    return {
+        type: 'SUCCESS',
+        successMessage,
+        buttonText,
+        payload,
+    };
+}
+
+export function updateUser(user) {
+    storage.save('user', JSON.stringify(user));
+    return {
+        type: 'UPDATE_USER',
         user,
+    };
+}
+
+export function updateToken(token) {
+    storage.save('token', token);
+    return {
+        type: 'UPDATE_TOKEN',
         token,
-    };
-}
-
-export function receiveLoginError(error) {
-    return {
-        type: 'LOGIN_ERROR',
-        error,
-    };
-}
-
-export function submitUpdateCredentials(credentials) {
-    return {
-        type: 'UPDATE_CREDENTIALS_SUBMIT',
-        credentials,
-    };
-}
-
-export function receiveUpdateCredentialsSuccess(user) {
-    return {
-        type: 'UPDATE_CREDENTIALS_ACK',
-        user,
-    };
-}
-
-export function receiveUpdateCredentialsError(error) {
-    return {
-        type: 'UPDATE_CREDENTIALS_ERROR',
-        error,
     };
 }
 
@@ -75,9 +70,19 @@ export function dismissOverlay() {
     ASYNC ACTIONS
 */
 
+const processResponse = response => response.status !== 204 ? response.json() : null;
+const processError = (error, dispatch) => dispatch(receiveError('An unknown error occured.'));
+const processData = (data, dispatch, func) => {
+    if (data && data.message) {
+        dispatch(receiveError(data.message));
+    } else {
+        func(data);
+    }
+};
+
 export function asyncLogin(username, password) {
-    return dispatch => {
-        dispatch(submitLogin(username, password));
+    return (dispatch, getState) => {
+        dispatch(submit());
 
         return fetch(config.api_url + '/token', {
             method: 'POST',
@@ -85,47 +90,85 @@ export function asyncLogin(username, password) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ username, password }),
-        }).then(
-            response => response.json(),
-            error => dispatch(receiveLoginError({ message: 'An unknown error occured.' }))
-        ).then(data => {
-            if (!data.user || !data.token) {
-                if (data.message) {
-                    dispatch(receiveLoginError(data));
-                } else {
-                    dispatch(receiveLoginError({ message: 'An unknown error occured.' }))
-                }
-            }
-            else {
-                storage.save('user', JSON.stringify(data.user));
-                storage.save('token', data.token);
-                dispatch(receiveLoginSuccess(data.user, data.token));
-            }
-        });
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(dismissOverlay());
+            dispatch(updateUser(data.user));
+            dispatch(updateToken(data.token));
+        }));
     };
 }
 
-export function asyncUpdateCredentials(credentials, token) {
-    return dispatch => {
-        dispatch(submitUpdateCredentials(credentials));
+export function asyncUpdateCredentials(credentials) {
+    return (dispatch, getState) => {
+        dispatch(submit());
 
         return fetch(config.api_url + '/me/credentials', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Auth-Token': token,
+                'X-Auth-Token': getState().token,
             },
             body: JSON.stringify(credentials),
-        }).then(
-            response => response.json(),
-            error => dispatch(receiveUpdateCredentialsError({ message: 'An unknown error occured.' }))
-        ).then(data => {
-            if (data.message) {
-                dispatch(receiveUpdateCredentialsError(data));
-            } else {
-                dispatch(receiveUpdateCredentialsSuccess(data));
-                dispatch(redirect('/'));
-            }
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(receiveSuccess('Credentials successfully updated!', 'Go to homepage'));
+            dispatch(updateUser(data.user));
+            dispatch(updateToken(data.token));
+            dispatch(redirect('/'));
+        }));
+    };
+}
+
+export function asyncForgotPassword(email) {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        return fetch(config.api_url + '/public/forgot-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(receiveSuccess('An email has been sent to ' + email + ' containing a link you must follow to reset your password. '
+                + 'You can re-submit this form to send another email.'));
+        }));
+    }
+}
+
+export function asyncResetPassword(password) {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        return fetch(config.api_url + '/me/password', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            },
+            body: JSON.stringify({ password }),
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(receiveSuccess('Password successfully reset!', 'Go to dashboard'));
+            dispatch(updateUser(data.user));
+            dispatch(updateToken(data.token));
+            dispatch(redirect('/'));
+        }));
+    };
+}
+
+export function asyncLogout() {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        return fetch(config.api_url + '/token', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            },
+        }).then(processResponse, error => processError(error, dispatch)).then(data => {
+            dispatch(dismissOverlay());
+            dispatch(updateUser(null));
+            dispatch(updateToken(null));
         });
     };
 }

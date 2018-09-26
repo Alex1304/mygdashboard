@@ -17,3 +17,7 @@ body {
 .nav-link {
     cursor: pointer;
 }
+
+a, a:hover {
+    color: white;
+}

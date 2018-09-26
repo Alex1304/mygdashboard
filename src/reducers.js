@@ -1,11 +1,8 @@
 import { combineReducers } from 'redux';
 
-import * as actions from './actions.js';
-
 function user(state = null, action) {
     switch (action.type) {
-        case 'LOGIN_ACK':
-        case 'UPDATE_CREDENTIALS_ACK':
+        case 'UPDATE_USER':
             return action.user;
         case 'LOGOUT':
             return null;
@@ -16,8 +13,10 @@ function user(state = null, action) {
 
 function token(state = null, action) {
     switch (action.type) {
-        case 'LOGIN_ACK':
+        case 'UPDATE_TOKEN':
             return action.token;
+        case 'LOGOUT':
+            return null;
         default:
             return state;
     }
@@ -36,23 +35,20 @@ function redirect(state = null, action) {
 
 function overlay(state = {}, action) {
     switch (action.type) {
-        case 'LOGIN_SUBMIT':
-        case 'UPDATE_CREDENTIALS_SUBMIT':
+        case 'SUBMIT':
             return { icon: 'LOADING' };
-        case 'UPDATE_CREDENTIALS_ACK':
+        case 'SUCCESS':
             return {
                 icon: 'SUCCESS',
-                text: 'Credentials changed!',
-                button: 'Go back to homepage',
+                text: action.successMessage,
+                button: action.buttonText,
             };
-        case 'LOGIN_ERROR':
-        case 'UPDATE_CREDENTIALS_ERROR':
+        case 'ERROR':
             return {
                 icon: 'FAILED',
-                text: action.error.message,
-                button: 'OK',
+                text: action.errorMessage,
+                button: action.buttonText,
             };
-        case 'LOGIN_ACK':
         case 'LOGOUT':
         case 'OVERLAY_DISMISS':
             return {};

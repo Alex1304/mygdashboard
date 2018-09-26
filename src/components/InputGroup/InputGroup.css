@@ -1,7 +1,14 @@
 .InputGroup {
 }
 
+.InputGroup input {
+    border: 1px solid black;
+    border-left-width: 0;
+}
+
 .InputGroup .input-group-text {
     width: 50px;
     justify-content: center;
+    border: 1px solid black;
+    border-right-width: 0;
 }

@@ -9,14 +9,12 @@
     flex: 1;
 }
 
-.LoginScreen form > * {
-    box-shadow: 1px 1px black;
-}
-
 .LoginScreen form .InputGroup {
     margin-bottom: 20px;
 }
 
-.LoginScreen form .Button {
-    float: right;
+.LoginScreen-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

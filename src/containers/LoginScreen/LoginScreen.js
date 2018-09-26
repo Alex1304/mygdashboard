@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './LoginScreen.css';
 
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -27,7 +27,7 @@ class LoginScreen extends Component {
                         const password = document.getElementById('gdpassword').value;
 
                         if (!username || !password) {
-                            this.props.dispatch(actions.receiveLoginError({ message: 'Username and/or password is empty' }));
+                            this.props.dispatch(actions.receiveError('Username and/or password is empty'));
                         } else {
                             this.props.dispatch(actions.asyncLogin(username, password));
                         }
@@ -35,7 +35,10 @@ class LoginScreen extends Component {
                     }}>
                         <InputGroup inputID="gdusername" placeholder="Username" groupText={<FontAwesomeIcon icon="user" />} />
                         <InputGroup inputID="gdpassword" placeholder="Password" groupText={<FontAwesomeIcon icon="key" />} type="password" />
-                        <Button text="Login" type="success" isSubmit />
+                        <div className="LoginScreen-options">
+                            <Link to="/forgot-password">Forgot username/password?</Link>
+                            <Button text="Login" type="success" isSubmit />
+                        </div>
                     </form>
                 </div>
             </section>

@@ -1,22 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from './../../actions.js';
 
-function execRedirect(path, dispatch) {
-    if (path)
-        dispatch(actions.endRedirect());
-        
-    return null;
-}
+class Redirecter extends Component {
+    clearRedirect = () => {
+        if (this.props.path)
+            this.props.dispatch(actions.endRedirect());
+    }
 
-const Redirecter = ({ path, dispatch }) => (
-    <span>
-        {execRedirect(path, dispatch)}
-        {path && <Redirect push to={path} />}
-    </span>
-);
+    componentDidUpdate() {
+        this.clearRedirect();
+    }
+
+    render() {
+        return (
+            <span>
+                {this.props.path && <Redirect push to={this.props.path} />}
+            </span>
+        );
+    }
+}
 
 function mapStateToProps(state) {
     return {
