@@ -12,6 +12,7 @@ import LoginScreen from './../../containers/LoginScreen';
 import ForgotPassword from './../../containers/ForgotPassword';
 import ResetPassword from './../../containers/ResetPassword';
 import UpdateCredentials from './../../containers/UpdateCredentials';
+import AdminDailyTables from './../../containers/AdminDailyTables';
 
 import Header from './../../components/Header';
 import Redirecter from './../../components/Redirecter';
@@ -39,6 +40,7 @@ class App extends Component {
                             <Route path="/update-credentials" component={UpdateCredentials} />
                             <Route path="/forgot-password" component={ForgotPassword} />
                             <Route path="/recover-password" component={ResetPassword} />
+                            <Route path="/admin/daily-tables" component={AdminDailyTables} />
                             <Route component={MainMenu} />
                         </Switch>
                     </div>
