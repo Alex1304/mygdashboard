@@ -13,7 +13,10 @@ const Overlay = ({ overlay, dispatch }) => (
         {overlay.icon === 'SUCCESS' && <img src="/images/success.png" alt="Success!" className="Overlay-success" />}
         {overlay.icon === 'FAILED' && <img src="/images/failed.png" alt="Failed." className="Overlay-failed" />}
         {overlay.text && <div className="Overlay-text">{overlay.text}</div>}
-        {overlay.button && <Button type="primary" onClick={() => dispatch(actions.dismissOverlay())} text={overlay.button} />}
+        {overlay.button && <Button type="primary" onClick={() => {
+            dispatch(actions.dismissOverlay());
+            if (overlay.onClick) overlay.onClick();
+        }} text={overlay.button} />}
     </div>
 );
 

@@ -1,3 +1,40 @@
 .DailyTable {
-    
+}
+
+@media (max-width: 768px) {
+    .DailyTable table {
+        min-width: 600px;
+    }
+}
+
+.DailyTable-bar {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.DailyTable-addWrapper {
+    display: flex;
+}
+
+.DailyTable-addWrapper .InputGroup {
+    margin-right: 10px;
+}
+
+.DailyTable-reloadWrapper {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+}
+
+.DailyTable-reloadWrapper .Button {
+    margin-left: 10px;
+}
+
+.DailyTable-current {
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.DailyTable-levelName {
+    text-decoration: underline;
 }

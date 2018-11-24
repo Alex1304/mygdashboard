@@ -10,9 +10,27 @@ import { connect } from 'react-redux';
 import ContainerTitle from './../../components/ContainerTitle';
 import DailyTable from './../../components/DailyTable';
 
-//import * as actions from './../../actions.js';
+import * as actions from './../../actions.js';
 
 class AdminDailyTables extends Component {
+
+    componentWillMount() {
+        this.reload(0);
+        this.reload(1);
+    }
+
+    delete = (i, type) => {
+        this.props.dispatch(actions.asyncRemoveFromDailyTable(i, type));
+    };
+
+    add = (id, type) => {
+        this.props.dispatch(actions.asyncAddToDailyTable(id, type));
+    };
+
+    reload = type => {
+        this.props.dispatch(actions.asyncLoadDailyTable(type));
+    };
+
     render() {
         if (!this.props.user || !this.props.user.roles.includes('ROLE_ADMIN')) {
             return <Redirect to="/" />
@@ -20,33 +38,12 @@ class AdminDailyTables extends Component {
 
         return (
             <section className="AdminDailyTables">
-                <ContainerTitle style={{ height: '15%', minHeight: '40px' }}>Daily tables</ContainerTitle>
-                <DailyTable type={0} dailies={[
-                    {
-                        index: 1,
-                        level: {
-                            id: 555,
-                            name: "Back on track",
-                            creator: {
-                                name: "RobTop"
-                            },
-                        },
-                        periodStart: "01/01/2018",
-                        periodEnd: "02/01/2018",
-                    },
-                    {
-                        index: 2,
-                        level: {
-                            id: 556,
-                            name: "Test",
-                            creator: {
-                                name: "Alex1304"
-                            },
-                        },
-                        periodStart: "08/01/2018",
-                        periodEnd: "09/01/2018",
-                    },
-                ]} onDelete={i => console.log("Deleted daily #" + i)} />
+                <ContainerTitle style={{ height: '15%', minHeight: '60px' }}>Daily levels</ContainerTitle>
+                <DailyTable type={0} dailies={this.props.daily_tables.type0}
+                    onDelete={this.delete} onAdd={this.add} onReload={this.reload} />
+                <ContainerTitle style={{ height: '15%', minHeight: '60px' }}>Weekly demons</ContainerTitle>
+                <DailyTable type={1} dailies={this.props.daily_tables.type1}
+                    onDelete={this.delete} onAdd={this.add} onReload={this.reload} />
             </section>
         );
     }
@@ -55,6 +52,7 @@ class AdminDailyTables extends Component {
 function mapStateToProps(state) {
     return {
         user: state.user,
+        daily_tables: state.daily_tables,
     };
 }
 
