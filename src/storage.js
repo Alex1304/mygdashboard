@@ -5,7 +5,7 @@ export function isSessionStorageSupported() {
         storage.removeItem(x);
         return true;
     }
-    catch(e) {
+    catch (e) {
         return e instanceof DOMException && (
             // everything except Firefox
             e.code === 22 ||
@@ -35,7 +35,7 @@ export function remove(item) {
 
 export function get(item) {
     if (isSessionStorageSupported()) {
-        return window.sessionStorage.getItem(item);
+        return window.sessionStorage.getItem(item) || null;
     } else {
         return null;
     }

@@ -44,7 +44,7 @@ const DailyTable = ({ type, dailies, onDelete, onAdd, onReload }) => (
 );
 
 DailyTable.defaultProps = {
-    type: "light",
+    type: 0,
     onClick: () => {}
 };
 

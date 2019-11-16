@@ -18,7 +18,7 @@ class UpdateCredentials extends Component {
 
         return (
             <section className="UpdateCredentials">
-                <ContainerTitle style={{ height: '40%', minHeight: '100px' }}>Here you can update your credentials (username, password, email). Leave the field blank to make no changes. Current password field is required.</ContainerTitle>
+                <ContainerTitle style={{ height: '40%', minHeight: '180px' }}>Here you can update your credentials (username, password, email). Leave the field blank to make no changes. Current password field is required.</ContainerTitle>
                 <div className="UpdateCredentials-formContainer">
                     <form onSubmit={e => {
                         e.preventDefault();

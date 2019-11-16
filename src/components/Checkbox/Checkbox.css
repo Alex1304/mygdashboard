@@ -1,0 +1,11 @@
+.Checkbox {
+}
+
+.Checkbox input {
+    border: 1px solid black !important;
+}
+
+.Checkbox label {
+    margin-left: 10px;
+    color: white;
+}

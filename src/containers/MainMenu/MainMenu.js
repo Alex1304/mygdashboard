@@ -23,6 +23,9 @@ class MainMenu extends Component {
                     <Button text="Update credentials" onClick={() => this.props.dispatch(actions.redirect('/update-credentials'))} />
 
                     {this.props.user.roles.includes('ROLE_ADMIN') &&
+                        <Button text="[ADMIN] Rate levels" onClick={() => this.props.dispatch(actions.redirect('/admin/rate-levels'))} />
+                    }
+                    {this.props.user.roles.includes('ROLE_ADMIN') &&
                         <Button text="[ADMIN] Edit Daily tables" onClick={() => this.props.dispatch(actions.redirect('/admin/daily-tables'))} />
                     }
                 </div>

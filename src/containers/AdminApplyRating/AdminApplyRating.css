@@ -1,0 +1,17 @@
+.AdminApplyRating {
+    padding: 0px 20px;
+    display: block !important;
+}
+
+.AdminApplyRating form .InputGroup {
+    margin: 10px 0;
+}
+
+.AdminApplyRating form .Checkbox {
+    float: left;
+    margin-right: 10px;
+}
+
+.AdminApplyRating form .Button {
+    float: right;
+}

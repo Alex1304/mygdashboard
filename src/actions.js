@@ -27,7 +27,9 @@ export function receiveSuccess(successMessage, buttonText = 'OK', onClick = null
 }
 
 export function updateUser(user) {
-    storage.save('user', JSON.stringify(user));
+    if (user) {
+        storage.save('user', JSON.stringify(user));
+    }
     return {
         type: 'UPDATE_USER',
         user,
@@ -35,7 +37,9 @@ export function updateUser(user) {
 }
 
 export function updateToken(token) {
-    storage.save('token', token);
+    if (token) {
+        storage.save('token', token);
+    }
     return {
         type: 'UPDATE_TOKEN',
         token,
@@ -236,6 +240,26 @@ export function asyncRemoveFromDailyTable(index, type) {
             dispatch(receiveSuccess('Level successfully removed from table!', 'OK', () => {
                 dispatch(asyncLoadDailyTable(type));
             }));
+        }));
+    };
+}
+
+export function asyncApplyRating(level_id, stars, featured_score, is_epic, verify_coins) {
+    return (dispatch, getState) => {
+        dispatch(submit());
+        stars = stars ? stars : null;
+        featured_score = featured_score ? featured_score : null;
+        is_epic = is_epic ? true : false;
+        verify_coins = verify_coins ? true : false;
+        return fetch(config.api_url + '/admin/apply-rating', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            },
+            body: JSON.stringify({ level_id, stars, featured_score, is_epic, verify_coins }),
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(receiveSuccess('Rating successfully applied!', 'OK'));
         }));
     };
 }

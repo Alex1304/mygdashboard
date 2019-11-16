@@ -1,0 +1,13 @@
+.AdminRateLevels {
+    padding: 0px 20px;
+    display: block !important;
+}
+
+.AdminRateLevels-idInput {
+    display: flex;
+}
+
+.AdminRateLevels-idInput .InputGroup {
+    margin-right: 10px;
+    flex: 1;
+}
