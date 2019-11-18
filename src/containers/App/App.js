@@ -13,6 +13,7 @@ import ForgotPassword from './../../containers/ForgotPassword';
 import ResetPassword from './../../containers/ResetPassword';
 import UpdateCredentials from './../../containers/UpdateCredentials';
 import AdminDailyTables from './../../containers/AdminDailyTables';
+import AdminManageMods from './../../containers/AdminManageMods';
 import AdminRateLevels from './../../containers/AdminRateLevels';
 import AdminApplyRating from './../../containers/AdminApplyRating';
 
@@ -43,6 +44,7 @@ class App extends Component {
                             <Route path="/forgot-password" component={ForgotPassword} />
                             <Route path="/recover-password" component={ResetPassword} />
                             <Route path="/admin/daily-tables" component={AdminDailyTables} />
+                            <Route path="/admin/manage-mods" component={AdminManageMods} />
                             <Route path="/admin/rate-levels" component={AdminRateLevels} />
                             <Route path="/admin/apply-rating/:id" component={AdminApplyRating} />
                             <Route component={MainMenu} />

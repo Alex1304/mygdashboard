@@ -20,7 +20,7 @@ class AdminApplyRating extends Component {
 
         return (
             <section className="AdminApplyRating">
-                <ContainerTitle style={{ height: '15%', minHeight: '60px' }}>Rate level of ID {this.props.match.params.id}</ContainerTitle>
+                <ContainerTitle>Rate level of ID {this.props.match.params.id}</ContainerTitle>
                 <form onSubmit={e => {
                     e.preventDefault();
                     const stars = document.getElementById('stars').value;

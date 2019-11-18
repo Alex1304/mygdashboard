@@ -78,12 +78,48 @@ function daily_tables(state = { type0: [], type1: [] }, action) {
     }
 }
 
+function mod_list(state = [], action) {
+    switch (action.type) {
+        case 'UPDATE_MOD_LIST':
+            return action.mod_list;
+        default:
+            return state;
+    }
+}
+
+
+function mod_sends(state = [], action) {
+    switch (action.type) {
+        case 'UPDATE_MOD_SENDS':
+            return action.mod_sends;
+        default:
+            return state;
+    }
+}
+
+function mod_sends_options(state = { min_stars: 0, max_stars: 10, max_song_uses: 0, sort_mode: 0 }, action) {
+    switch (action.type) {
+        case 'UPDATE_MOD_SENDS_OPTIONS':
+            return {
+                min_stars: action.min_stars,
+                max_stars: action.max_stars,
+                max_song_uses: action.max_song_uses,
+                sort_mode: action.sort_mode,
+            };
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     user,
     token,
     redirect,
     overlay,
     daily_tables,
+    mod_list,
+    mod_sends_options,
+    mod_sends,
 });
 
 export default rootReducer;

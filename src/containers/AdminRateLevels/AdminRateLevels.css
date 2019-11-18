@@ -11,3 +11,34 @@
     margin-right: 10px;
     flex: 1;
 }
+
+.AdminRateLevels-levelName {
+    text-decoration: underline;
+}
+
+.AdminRateLevels form > * {
+    margin-bottom: 15px;
+}
+
+.AdminRateLevels form .Button {
+    float: right;
+}
+
+.AdminRateLevels table ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.AdminRateLevels table ul li {
+    font-size: 13px;
+}
+
+.AdminRateLevels-actions .Button {
+    margin-right: 10px;
+}
+
+.AdminRateLevels-bottomNote {
+    font-size: 12px;
+    color: white;
+}

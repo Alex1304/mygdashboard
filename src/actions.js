@@ -79,6 +79,30 @@ export function updateDailyTable(type, table) {
     };
 }
 
+export function updateModList(mod_list) {
+    return {
+        type: 'UPDATE_MOD_LIST',
+        mod_list,
+    };
+}
+
+export function updateModSends(mod_sends) {
+    return {
+        type: 'UPDATE_MOD_SENDS',
+        mod_sends,
+    };
+}
+
+export function updateModSendsOptions(min_stars, max_stars, max_song_uses, sort_mode) {
+    return {
+        type: 'UPDATE_MOD_SENDS_OPTIONS',
+        min_stars,
+        max_stars,
+        max_song_uses,
+        sort_mode,
+    };
+}
+
 /*
     ASYNC ACTIONS
 */
@@ -260,6 +284,84 @@ export function asyncApplyRating(level_id, stars, featured_score, is_epic, verif
             body: JSON.stringify({ level_id, stars, featured_score, is_epic, verify_coins }),
         }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
             dispatch(receiveSuccess('Rating successfully applied!', 'OK'));
+        }));
+    };
+}
+
+export function asyncLoadModList() {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        return fetch(config.api_url + '/admin/mod-list', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            }
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(dismissOverlay());
+            let mod_list = data.data.slice();
+            dispatch(updateModList(mod_list));
+        }));
+    };
+}
+
+export function asyncChangeUserRoles(player_name, roles_to_add, roles_to_remove) {
+    return (dispatch, getState) => {
+        dispatch(submit());
+        return fetch(config.api_url + '/admin/mod-list', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            },
+            body: JSON.stringify({ player_name, roles_to_add, roles_to_remove }),
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(receiveSuccess('User roles successfully updated!', 'OK', () => dispatch(asyncLoadModList())));
+        }));
+    };
+}
+
+export function asyncLoadModSends() {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        let min_stars = getState().mod_sends_options.min_stars;
+        let max_stars = getState().mod_sends_options.max_stars;
+        let max_song_uses = getState().mod_sends_options.max_song_uses;
+        let sort_mode = getState().mod_sends_options.sort_mode;
+        let query = 'min_stars=' + min_stars
+                + '&max_stars=' + max_stars
+                + '&max_song_uses=' + max_song_uses
+                + '&sort_mode=' + sort_mode;
+        return fetch(config.api_url + '/admin/mod-suggestions?' + query, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            },
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(dismissOverlay());
+            let mod_sends = data.data.slice();
+            dispatch(updateModSends(mod_sends));
+        }));
+    };
+}
+
+export function asyncRemoveModSend(id) {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        return fetch(config.api_url + '/admin/mod-suggestions?level_id=' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            },
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(receiveSuccess('Mod suggestion successfully removed!', 'OK', () => {
+                dispatch(asyncLoadModSends());
+            }));
         }));
     };
 }

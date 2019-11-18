@@ -28,6 +28,9 @@ class MainMenu extends Component {
                     {this.props.user.roles.includes('ROLE_ADMIN') &&
                         <Button text="[ADMIN] Edit Daily tables" onClick={() => this.props.dispatch(actions.redirect('/admin/daily-tables'))} />
                     }
+                    {this.props.user.roles.includes('ROLE_ADMIN') &&
+                        <Button text="[ADMIN] Manage mods" onClick={() => this.props.dispatch(actions.redirect('/admin/manage-mods'))} />
+                    }
                 </div>
             </section>
         );

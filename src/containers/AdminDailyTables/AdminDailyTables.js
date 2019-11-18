@@ -14,7 +14,7 @@ import * as actions from './../../actions.js';
 
 class AdminDailyTables extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
         this.reload(0);
         this.reload(1);
     }
@@ -38,10 +38,10 @@ class AdminDailyTables extends Component {
 
         return (
             <section className="AdminDailyTables">
-                <ContainerTitle style={{ height: '15%', minHeight: '60px' }}>Daily levels</ContainerTitle>
+                <ContainerTitle>Daily levels</ContainerTitle>
                 <DailyTable type={0} dailies={this.props.daily_tables.type0}
                     onDelete={this.delete} onAdd={this.add} onReload={this.reload} />
-                <ContainerTitle style={{ height: '15%', minHeight: '60px' }}>Weekly demons</ContainerTitle>
+                <ContainerTitle>Weekly demons</ContainerTitle>
                 <DailyTable type={1} dailies={this.props.daily_tables.type1}
                     onDelete={this.delete} onAdd={this.add} onReload={this.reload} />
             </section>

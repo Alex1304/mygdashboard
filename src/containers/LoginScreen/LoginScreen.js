@@ -19,7 +19,7 @@ class LoginScreen extends Component {
 
         return (
             <section className="LoginScreen">
-                <ContainerTitle style={{ height: '36%', minHeight: '100px' }}>Please login to your Geometry Dash account to continue</ContainerTitle>
+                <ContainerTitle style={{ height: '36%' }}>Please login to your Geometry Dash account to continue</ContainerTitle>
                 <div className="LoginScreen-formContainer">
                     <form onSubmit={e => {
                         e.preventDefault();

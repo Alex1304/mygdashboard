@@ -1,0 +1,16 @@
+.SelectBox {
+    display: flex;
+    align-items: center;
+}
+
+.SelectBox label {
+    padding: 0 25px;
+    margin: 0;
+    font-weight: bold;
+    color: white;
+}
+
+.SelectBox select {
+    border: 1px solid black;
+    flex: 1;
+}
