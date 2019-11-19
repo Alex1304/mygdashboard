@@ -71,7 +71,7 @@ class AdminRateLevels extends Component {
                     <table className={"table table-dark"}>
                         <thead>
                             <tr>
-                                <th scope="col">Level ID</th>
+                                <th scope="col">ID</th>
                                 <th scope="col">Level name</th>
                                 <th scope="col">Sends*</th>
                                 <th scope="col">Actions</th>

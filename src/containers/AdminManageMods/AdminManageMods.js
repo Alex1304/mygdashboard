@@ -43,8 +43,8 @@ class AdminManageMods extends Component {
                 <ContainerTitle>Promote Moderator</ContainerTitle>
                 <div className="AdminManageMods-input">
                     <InputGroup inputID="mod_name" groupText={<FontAwesomeIcon icon="user" />} placeholder="Enter a username" />
-                    <Button type="success" text="Promote Mod" onClick={() => this.setMod(document.getElementById('mod_name').value)} />
-                    <Button type="danger" text="Promote Elder" onClick={() => this.setElder(document.getElementById('mod_name').value)} />
+                    <Button type="success" text="Mod" onClick={() => this.setMod(document.getElementById('mod_name').value)} />
+                    <Button type="danger" text="Elder" onClick={() => this.setElder(document.getElementById('mod_name').value)} />
                 </div>
                 <ContainerTitle>Moderator list</ContainerTitle>
                 <div className="table-responsive">
