@@ -15,6 +15,7 @@ import UpdateCredentials from './../../containers/UpdateCredentials';
 import AdminDailyTables from './../../containers/AdminDailyTables';
 import AdminManageMods from './../../containers/AdminManageMods';
 import AdminRateLevels from './../../containers/AdminRateLevels';
+import AdminDeleteLevels from './../../containers/AdminDeleteLevels';
 import AdminApplyRating from './../../containers/AdminApplyRating';
 
 import Header from './../../components/Header';
@@ -46,6 +47,7 @@ class App extends Component {
                             <Route path="/admin/daily-tables" component={AdminDailyTables} />
                             <Route path="/admin/manage-mods" component={AdminManageMods} />
                             <Route path="/admin/rate-levels" component={AdminRateLevels} />
+                            <Route path="/admin/delete-levels" component={AdminDeleteLevels} />
                             <Route path="/admin/apply-rating/:id" component={AdminApplyRating} />
                             <Route component={MainMenu} />
                         </Switch>

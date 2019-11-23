@@ -111,6 +111,24 @@ function mod_sends_options(state = { min_stars: 0, max_stars: 10, max_song_uses:
     }
 }
 
+function reports(state = [], action) {
+    switch (action.type) {
+        case 'UPDATE_REPORTS':
+            return action.reports;
+        default:
+            return state;
+    }
+}
+
+function reports_options(state = 0, action) {
+    switch (action.type) {
+        case 'UPDATE_REPORTS_OPTIONS':
+            return action.sort_mode;
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     user,
     token,
@@ -120,6 +138,8 @@ const rootReducer = combineReducers({
     mod_list,
     mod_sends_options,
     mod_sends,
+    reports_options,
+    reports,
 });
 
 export default rootReducer;

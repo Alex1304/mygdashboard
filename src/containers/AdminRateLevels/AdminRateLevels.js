@@ -31,7 +31,7 @@ class AdminRateLevels extends Component {
                     <Button type="primary" text="Rate" onClick={() => this.props.dispatch(actions.redirect('/admin/apply-rating/' + document.getElementById('rate-level').value))} />
                 </div>
                 <ContainerTitle>Moderator recommendations</ContainerTitle>
-                <div class="AdminRateLevels-options">
+                <div className="AdminRateLevels-options">
                     <form onSubmit={e => {
                         e.preventDefault();
                         const minStars = document.getElementById('min-stars').value || 1;

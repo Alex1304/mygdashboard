@@ -103,12 +103,26 @@ export function updateModSendsOptions(min_stars, max_stars, max_song_uses, sort_
     };
 }
 
+export function updateReports(reports) {
+    return {
+        type: 'UPDATE_REPORTS',
+        reports,
+    };
+}
+
+export function updateReportsOptions(sort_mode) {
+    return {
+        type: 'UPDATE_REPORTS_OPTIONS',
+        sort_mode,
+    };
+}
+
 /*
     ASYNC ACTIONS
 */
 
 const processResponse = response => response.status !== 204 ? response.json() : null;
-const processError = (error, dispatch) => dispatch(receiveError('An unknown error occured.'));
+const processError = (error, dispatch) => dispatch(receiveError('An unknown error occured: ' + error));
 const processData = (data, dispatch, func) => {
     if (data && data.message) {
         dispatch(receiveError(data.message));
@@ -361,6 +375,61 @@ export function asyncRemoveModSend(id) {
         }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
             dispatch(receiveSuccess('Mod suggestion successfully removed!', 'OK', () => {
                 dispatch(asyncLoadModSends());
+            }));
+        }));
+    };
+}
+
+export function asyncLoadReports() {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        let sort_mode = getState().reports_options;
+        return fetch(config.api_url + '/admin/level-reports?sort_mode=' + sort_mode, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            },
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(dismissOverlay());
+            let reports = data.data.slice();
+            dispatch(updateReports(reports));
+        }));
+    };
+}
+
+export function asyncRemoveReport(id) {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        return fetch(config.api_url + '/admin/level-reports?level_id=' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            },
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(receiveSuccess('Report successfully removed!', 'OK', () => {
+                dispatch(asyncLoadReports());
+            }));
+        }));
+    };
+}
+
+export function asyncDeleteLevel(id) {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        return fetch(config.api_url + '/admin/levels?level_id=' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Auth-Token': getState().token,
+            },
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(receiveSuccess('Level successfully deleted from servers!', 'OK', () => {
+                dispatch(asyncLoadReports());
             }));
         }));
     };
