@@ -1,0 +1,7 @@
+.VerifyAccount {
+}
+
+.VerifyAccount-captchaContainer {
+    display: flex;
+    justify-content: center;
+}

@@ -161,10 +161,11 @@ export function asyncUpdateCredentials(credentials) {
             },
             body: JSON.stringify(credentials),
         }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
-            dispatch(receiveSuccess('Credentials successfully updated!', 'Go to homepage'));
+            dispatch(receiveSuccess('Credentials successfully updated! If you changed your email, an email has been sent '
+                    + 'to your new address in order to verify it. If you changed your password, don\'t forget to refresh '
+                    + 'your login in-game via Settings > Account > Refresh Login.', 'Go to homepage', () => dispatch(redirect('/'))));
             dispatch(updateUser(data.user));
             dispatch(updateToken(data.token));
-            dispatch(redirect('/'));
         }));
     };
 }
@@ -430,6 +431,23 @@ export function asyncDeleteLevel(id) {
         }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
             dispatch(receiveSuccess('Level successfully deleted from servers!', 'OK', () => {
                 dispatch(asyncLoadReports());
+            }));
+        }));
+    };
+}
+
+export function asyncVerifyAccount(captchaResponse, token) {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        return fetch(config.api_url + '/public/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, captcha_response: captchaResponse })
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            console.warn(data);
+            dispatch(receiveSuccess('Account verified!', 'OK', () => {
+                dispatch(redirect('/login'));
             }));
         }));
     };
