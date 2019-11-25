@@ -7,13 +7,14 @@
 
 .UnverifiedAccount p {
     color: white;
+    text-align: justify;
 }
 
 .UnverifiedAccount form {
     flex: 1;
 }
 
-.UnverifiedAccount form .InputGroup {
+.UnverifiedAccount form .InputGroup, .UnverifiedAccount form .Button {
     margin-bottom: 20px;
 }
 
