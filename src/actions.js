@@ -141,11 +141,17 @@ export function asyncLogin(username, password) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ username, password }),
-        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+        }).then(processResponse, error => processError(error, dispatch)).then(data => {
             dispatch(dismissOverlay());
-            dispatch(updateUser(data.user));
-            dispatch(updateToken(data.token));
-        }));
+            if (data.verification_required) {
+                dispatch(redirect('/unverified-account'));
+            } else {
+                processData(data, dispatch, data => {
+                    dispatch(updateUser(data.user));
+                    dispatch(updateToken(data.token));
+                });
+            }
+        });
     };
 }
 
@@ -451,4 +457,25 @@ export function asyncVerifyAccount(captchaResponse, token) {
             }));
         }));
     };
+}
+
+export function asyncResendVerification(username, email) {
+    return (dispatch, getState) => {
+        dispatch(submit());
+
+        if (!email) {
+            email = null;
+        }
+
+        return fetch(config.api_url + '/public/resend-verification', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, email }),
+        }).then(processResponse, error => processError(error, dispatch)).then(data => processData(data, dispatch, data => {
+            dispatch(receiveSuccess('A new verification email has successfully been sent! Follow instructions on that email to verify your account.',
+                    'Return to login screen', () => dispatch(redirect('/login'))));
+        }));
+    }
 }

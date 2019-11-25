@@ -10,6 +10,7 @@ import * as storage from './../../storage.js';
 import MainMenu from './../../containers/MainMenu';
 import LoginScreen from './../../containers/LoginScreen';
 import VerifyAccount from './../../containers/VerifyAccount';
+import UnverifiedAccount from './../../containers/UnverifiedAccount';
 import ForgotPassword from './../../containers/ForgotPassword';
 import ResetPassword from './../../containers/ResetPassword';
 import UpdateCredentials from './../../containers/UpdateCredentials';
@@ -43,6 +44,7 @@ class App extends Component {
                         <Switch>
                             <Route path="/login" component={LoginScreen} />
                             <Route path="/verify-account" component={VerifyAccount} />
+                            <Route path="/unverified-account" component={UnverifiedAccount} />
                             <Route path="/update-credentials" component={UpdateCredentials} />
                             <Route path="/forgot-password" component={ForgotPassword} />
                             <Route path="/recover-password" component={ResetPassword} />

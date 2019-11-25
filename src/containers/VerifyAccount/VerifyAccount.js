@@ -4,8 +4,6 @@ import './VerifyAccount.css';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import InputGroup from './../../components/InputGroup';
-import Button from './../../components/Button';
 import ContainerTitle from './../../components/ContainerTitle';
 
 import * as actions from './../../actions.js';

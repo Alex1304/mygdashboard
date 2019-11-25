@@ -1,0 +1,22 @@
+.UnverifiedAccount {
+}
+
+.UnverifiedAccount-formContainer {
+    padding: 0% 10%;
+}
+
+.UnverifiedAccount p {
+    color: white;
+}
+
+.UnverifiedAccount form {
+    flex: 1;
+}
+
+.UnverifiedAccount form .InputGroup {
+    margin-bottom: 20px;
+}
+
+.UnverifiedAccount .Button {
+    float: right;
+}

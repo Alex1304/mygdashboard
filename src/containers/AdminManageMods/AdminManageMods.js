@@ -3,7 +3,7 @@ import './AdminManageMods.css';
 
 import { /*Link,*/ Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import InputGroup from './../../components/InputGroup';
 import Button from './../../components/Button';
